@@ -85,10 +85,6 @@ const  About = () => {
             missed flights (It's too long of a story to type), uncomfortable bed situations at hotels, but through it all being together was all that mattered and on
             November 25, 2018 in Nice, France on the last day of the Trip, Luigi took Irma on a walk on the French Riviera where he got 
             down on one knee and asked Irma the second of the two most important questions, "Will you marry me?" and the rest is history.
-            
-            
-            
-             
           </Typography>
           <Typography 
             component="p"
