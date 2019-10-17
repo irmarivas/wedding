@@ -8,7 +8,7 @@ import {
   FavoriteTwoTone as HeartIcon,
   SendTwoTone as RSVPIcon,
 } from '@material-ui/icons/';
-import { AppBar, Box, Tabs, Tab, Typography } from '@material-ui/core';
+import { AppBar, Box, Paper, Tabs, Tab, Typography } from '@material-ui/core';
 import useWindowSize from 'react-use/lib/useWindowSize';
 import Confetti from 'react-confetti';
 
@@ -70,6 +70,21 @@ const TopAppBar = () => {
       </AppBar>
       <TabPanel value={value} index={0}>
         <Timer eventDate={new Date('January 12, 2020 11:30:00')}/>
+        <Paper>
+          <Box p={1}>
+            <Typography 
+              variant="overline" 
+              component="p"
+            >
+              Irma and Luigi are officially joining forces!
+              Welcome to our wedding website, we can’t wait to celebrate our special day with you.
+              We’ve created this website as a convenient and interactive way to share all of the important details with you in the lead up to our wedding. 
+              You can also read about our love story and check out our registry information too.
+              So have fun, take a look around and don’t forget to RSVP!
+              Finally, thank you for your ongoing love and support. We are excited to share this day with you and look forward to eating some good food with all our favorite people!
+            </Typography>
+          </Box>
+        </Paper>
         <Map 
           lat={34.0597614}
           long={-118.3447797}
