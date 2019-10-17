@@ -94,12 +94,12 @@ const Timer = ({ eventDate }) => {
    return (
      <Grid container justify="center">
         <Grid item xs={12}>
-          <Card title="Save the Date">
+          <Card title="Irma and Luigi Join Forces - Save the Date">
             <CardHeader
               aria-label="save the date"
               disableTypography={false}
-              title="Save The Date"
-              subheader="Sunday, January 12, 2020 @ Albertson Wedding Chapel, 834 S.La Brea Ave., Los Angeles, CA 90036"
+              title="Irma and Luigi Join Forces - Save The Date"
+              subheader="Sunday, January 12, 2020"
               titleTypographyProps={
                 {
                   variant:'overline'
