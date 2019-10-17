@@ -9,6 +9,8 @@ import {
   SendTwoTone as RSVPIcon,
 } from '@material-ui/icons/';
 import { AppBar, Box, Tabs, Tab, Typography } from '@material-ui/core';
+import useWindowSize from 'react-use/lib/useWindowSize';
+import Confetti from 'react-confetti';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -42,13 +44,18 @@ function a11yProps(index) {
 
 const TopAppBar = () => {
   const [value, setValue] = React.useState(0);
-
+  const { width, height } = useWindowSize;
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
   return (
     <React.Fragment>
+      <Confetti
+        width={width}
+        height={height}
+        colors={['#ff007f','red','#ffdee3','#ffd3dc','#fdcbd5','#ffc2d4','#ffb9cb']}
+      />
       <AppBar position="static" color="primary">
         <Tabs 
           value={value} 
