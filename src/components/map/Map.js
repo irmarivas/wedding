@@ -36,7 +36,7 @@ const Map = (
   return (
     <Grid container justify="center">
       <Grid item xs={12}>
-      <Card className={classes.spacing}>
+      <Card className={classes.spacing} title={title}>
         <CardHeader
           aria-label={ariaLabel}
           disableTypography={false}
@@ -62,7 +62,7 @@ const Map = (
             offsetLeft={0}
             offsetTop={0}
             >
-            <LocalParkingTwoTone color="action" />
+            <LocalParkingTwoTone aria-label="parking" title="parking" alt="parking" color="action" />
             <Typography variant="overline">
               Parking
             </Typography>
