@@ -8,7 +8,7 @@ import {
   FavoriteTwoTone as HeartIcon,
   SendTwoTone as RSVPIcon,
 } from '@material-ui/icons/';
-import { AppBar, Box, Tabs, Tab, Typography } from '@material-ui/core';
+import { AppBar, Box, Grid, Tabs, Tab, Typography } from '@material-ui/core';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -62,8 +62,24 @@ const TopAppBar = () => {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        <Timer eventDate={new Date('January 12, 2020 11:30:00')}/>
-        <Map />
+        <Grid container justify="center">
+          <Grid item xs={12}>
+            <Timer eventDate={new Date('January 12, 2020 11:30:00')}/>
+          </Grid>
+          <Grid item xs={12}>
+            <Map 
+              lat={34.0597614}
+              long={-118.3447797}
+              secondaryLat={34.0596387}
+              secondaryLong={-118.3447817}
+              message="Parking is free, on-site with the option of street parking, at your discretion."
+              ariaLabel="parking and location"
+              title="Parking and Location"
+              locationType="Chapel"
+              subheader="Albertson Wedding Chapel, 834 S.La Brea Ave., Los Angeles, CA 90036"
+        />
+          </Grid>
+        </Grid>
       </TabPanel>
       <TabPanel value={value} index={1}>
         <About />
