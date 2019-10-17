@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactMapGL, { Marker } from 'react-map-gl';
 import { makeStyles } from '@material-ui/core/styles';
-import { Typography, Grid, Card, CardHeader, CardContent, Divider } from '@material-ui/core';
+import { Typography, Grid, Box, Card, CardHeader, CardContent, Divider } from '@material-ui/core';
 import { LocalParkingTwoTone, RoomTwoTone } from '@material-ui/icons';
 import keys from '../../assets/keys/keys';
 import 'mapbox-gl/src/css/mapbox-gl.css'
@@ -26,7 +26,7 @@ const Map = (
 ) => {
   const classes = useStyles();
   const [viewport, setViewport] = React.useState({
-    width: 700,
+    width: "100%",
     height: 400,
     latitude: lat,
     longitude: long,
@@ -35,6 +35,7 @@ const Map = (
 
   return (
     <Grid container justify="center">
+      <Grid item xs={12}>
       <Card className={classes.spacing}>
         <CardHeader
           aria-label={ariaLabel}
@@ -48,11 +49,7 @@ const Map = (
           }
         />
         <CardContent>
-        <Grid container justify="center">
-          <Typography>
-            {message}
-            <br />
-          </Typography>
+          <Grid container justify="center">
           <ReactMapGL
             { ...viewport }
             onViewportChange={(viewport) => setViewport(viewport)}
@@ -84,7 +81,14 @@ const Map = (
           </ReactMapGL>
           </Grid>
         </CardContent>
+        <Divider />
+        <Box p={1}>
+        <Typography component="p" variant="overline">
+         **Parking is free on-site and there is street-parking, at your discretion. We recommend UBERing.
+        </Typography>
+        </Box>
       </Card>
+      </Grid>
     </Grid>
   );
 }
