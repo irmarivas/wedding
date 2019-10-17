@@ -9,4 +9,5 @@ our rsvp site
 - [ ] TODO: Create maps for reception
 - [ ] TODO: Create rsvp component
 - [ ] TODO: Type about us section 
+- [ ] TODO: Type a welcome message
 to run `npm i` followed by `npm start`
