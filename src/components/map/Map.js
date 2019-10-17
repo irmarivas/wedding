@@ -1,7 +1,8 @@
 import React from 'react';
-import MapGL, { Marker } from 'react-map-gl';
+import ReactMapGL, { Marker } from 'react-map-gl';
 import { makeStyles } from '@material-ui/core/styles';
-import { Typography, Grid, Card, CardHeader, CardContent, CardMedia, Divider, CircularProgress } from '@material-ui/core';
+import { Typography, Grid, Card, CardHeader, CardContent, Divider } from '@material-ui/core';
+import { LocalParkingTwoTone, RoomTwoTone } from '@material-ui/icons';
 import keys from '../../assets/keys/keys';
 export default class Map extends React.Component {
 
@@ -9,9 +10,9 @@ export default class Map extends React.Component {
     viewport: {
       width: 700,
       height: 400,
-      latitude: 34.0358307,
-      longitude: -118.6778271,
-      zoom: 15
+      latitude: 34.0597614,
+      longitude: -118.3447797,
+      zoom: 17
     }
   };
 
@@ -19,23 +20,44 @@ export default class Map extends React.Component {
     return (
       <Grid container justify="center">
         <Card>
+          <CardHeader
+            aria-label="parking and location"
+            disableTypography={false}
+            title="Parking and Location"
+            subheader="Albertson Wedding Chapel, 834 S.La Brea Ave., Los Angeles, CA 90036"
+            titleTypographyProps={
+              {
+                variant:'overline'
+              }
+            }
+          />
           <CardContent>
-            <MapGL
+            <ReactMapGL
               {...this.state.viewport}
               onViewportChange={(viewport) => this.setState({viewport})}
               mapboxApiAccessToken={keys.mapboxApiAccessToken}
+              mapStyle="mapbox://styles/mapbox/streets-v8"
             >
              <Marker
-              latitude={34.0358307}
-              longitude={-118.6778271}
-              offsetLeft={20}
-              offsetTop={-10}
+              latitude={34.0597614}
+              longitude={-118.3447797}
+              offsetLeft={0}
+              offsetTop={0}
              >
-              <Typography>
-                Location of Event
+              <LocalParkingTwoTone />
+             </Marker>
+             <Marker
+              latitude={34.0596387}
+              longitude={-118.3447817}
+              offsetLeft={0}
+              offsetTop={0}
+             >
+              <RoomTwoTone />
+              <Typography variant="overline">
+                Chapel
               </Typography>
              </Marker>
-            </MapGL>
+            </ReactMapGL>
           </CardContent>
         </Card>
       </Grid>
