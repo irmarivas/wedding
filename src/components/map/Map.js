@@ -4,63 +4,89 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Grid, Card, CardHeader, CardContent, Divider } from '@material-ui/core';
 import { LocalParkingTwoTone, RoomTwoTone } from '@material-ui/icons';
 import keys from '../../assets/keys/keys';
-export default class Map extends React.Component {
+import 'mapbox-gl/src/css/mapbox-gl.css'
 
-  state = {
-    viewport: {
-      width: 700,
-      height: 400,
-      latitude: 34.0597614,
-      longitude: -118.3447797,
-      zoom: 17
-    }
-  };
+const useStyles = makeStyles(theme => ({
+  spacing: {
+    marginTop: '5%'
+  },
+}));
 
-  render() {
-    return (
-      <Grid container justify="center">
-        <Card>
-          <CardHeader
-            aria-label="parking and location"
-            disableTypography={false}
-            title="Parking and Location"
-            subheader="Albertson Wedding Chapel, 834 S.La Brea Ave., Los Angeles, CA 90036"
-            titleTypographyProps={
-              {
-                variant:'overline'
-              }
-            }
-          />
-          <CardContent>
-            <ReactMapGL
-              {...this.state.viewport}
-              onViewportChange={(viewport) => this.setState({viewport})}
-              mapboxApiAccessToken={keys.mapboxApiAccessToken}
-              mapStyle="mapbox://styles/mapbox/streets-v8"
-            >
-             <Marker
-              latitude={34.0597614}
-              longitude={-118.3447797}
-              offsetLeft={0}
-              offsetTop={0}
-             >
-              <LocalParkingTwoTone />
-             </Marker>
-             <Marker
-              latitude={34.0596387}
-              longitude={-118.3447817}
-              offsetLeft={0}
-              offsetTop={0}
-             >
-              <RoomTwoTone />
-              <Typography variant="overline">
-                Chapel
-              </Typography>
-             </Marker>
-            </ReactMapGL>
-          </CardContent>
-        </Card>
-      </Grid>
-    );
+const Map = (
+  { lat, 
+    long,
+    secondaryLat,
+    secondaryLong,
+    ariaLabel,
+    locationType,
+    message,
+    subheader,
+    title
   }
+) => {
+  const classes = useStyles();
+  const [viewport, setViewport] = React.useState({
+    width: 700,
+    height: 400,
+    latitude: lat,
+    longitude: long,
+    zoom: 17
+  });
+
+  return (
+    <Grid container justify="center">
+      <Card className={classes.spacing}>
+        <CardHeader
+          aria-label={ariaLabel}
+          disableTypography={false}
+          title={title}
+          subheader={subheader}
+          titleTypographyProps={
+            {
+              variant:'overline'
+            }
+          }
+        />
+        <CardContent>
+        <Grid container justify="center">
+          <Typography>
+            {message}
+            <br />
+          </Typography>
+          <ReactMapGL
+            { ...viewport }
+            onViewportChange={(viewport) => setViewport(viewport)}
+            mapboxApiAccessToken={keys.mapboxApiAccessToken}
+            mapStyle="mapbox://styles/mapbox/streets-v10"
+          >
+            <Marker
+            latitude={lat}
+            longitude={long}
+            offsetLeft={0}
+            offsetTop={0}
+            >
+            <LocalParkingTwoTone color="action" />
+            <Typography variant="overline">
+              Parking
+            </Typography>
+            </Marker>
+            <Marker
+            latitude={secondaryLat}
+            longitude={secondaryLong}
+            offsetLeft={0}
+            offsetTop={0}
+            >
+            <RoomTwoTone color="secondary" />
+            <Typography variant="overline">
+              {locationType}
+            </Typography>
+            </Marker>
+          </ReactMapGL>
+          </Grid>
+        </CardContent>
+      </Card>
+    </Grid>
+  );
 }
+
+export default Map;
