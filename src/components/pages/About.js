@@ -1,13 +1,14 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import  { Box,
-          Card, 
-          CardContent, 
-          CardHeader,
-          CardMedia,
-          Divider
-          } from '@material-ui/core';
+import  { 
+  Box,
+  Card, 
+  CardContent, 
+  CardHeader,
+  CardMedia,
+  Divider
+} from '@material-ui/core';
 const profilePic = require('../../assets/images/luigi_assumes_irma_is_his_girlfriend.jpg');
 
 const useStyles = makeStyles(theme => ({

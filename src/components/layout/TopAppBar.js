@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Timer from '../timer/Timer';
 import About from '../pages/About';
+import RSVP from '../pages/RSVP';
 import Map from '../map/Map';
 import {
   HomeTwoTone as HomeIcon,
@@ -68,10 +69,10 @@ const TopAppBar = () => {
           <Tab title="Repondre Sil Vous Plait" icon={<RSVPIcon />} aria-label="R.S.V.P." {...a11yProps(2)} />
         </Tabs>
       </AppBar>
-      <TabPanel value={value} index={0}>
+      <TabPanel value={value} index={2}>
         <Timer eventDate={new Date('January 12, 2020 11:30:00')}/>
         <Paper>
-          <Box p={1}>
+          <Box p={1} mt={3}>
             <Typography 
               variant="overline" 
               component="p"
@@ -96,11 +97,11 @@ const TopAppBar = () => {
           subheader="Albertson Wedding Chapel, 834 S.La Brea Ave., Los Angeles, CA 90036"
         />
       </TabPanel>
-      <TabPanel value={value} index={1}>
+      <TabPanel value={value} index={1}>       
         <About />
       </TabPanel>
-      <TabPanel value={value} index={2}>
-        RSVP
+      <TabPanel value={value} index={0}>
+        <RSVP />
       </TabPanel>
     </React.Fragment>
   );

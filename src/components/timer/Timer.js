@@ -1,6 +1,15 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Typography, Grid, Card, CardHeader, CardContent, CardMedia, Divider, CircularProgress } from '@material-ui/core';
+import { 
+  Typography,
+  Grid,
+  Card,
+  CardHeader,
+  CardContent,
+  CardMedia,
+  CircularProgress,
+  Divider
+} from '@material-ui/core';
 
 const heroPic = require('../../assets/images/irma_luigi_laughing_together.jpg');
 const handHolding = require('../../assets/images/much_hand_holding.jpg');
