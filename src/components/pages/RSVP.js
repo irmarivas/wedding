@@ -25,8 +25,10 @@ import {
   Email as EmailIcon,
   Navigation as NavigationIcon
 } from '@material-ui/icons';
-// import { FirebaseContext } from '../../firebaseConfig'
-console.log(data);
+
+import firebase from '../../firebaseConfig/firebase';
+// data.forEach(guest => firebase.firestore().collection('guestlist').add(guest) );
+console.log('local data before map',data);
 const useStyles = makeStyles(theme => ({
   container: {
     display: 'flex',
@@ -68,53 +70,91 @@ const useStyles = makeStyles(theme => ({
 
 const RSVP = () => {
   const classes = useStyles();
+  const [guestList, setGuestList] = React.useState([]);
+  
+  React.useEffect(() => {
+    firebase
+      .firestore()
+      .collection('guestlist')
+      .onSnapshot(snapshot => {
+        const guests = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setGuestList(guests);
+      });
+  }, [guestList]);
   const [isAttending, setIsAttending] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const [values, setValues] = React.useState({
     firstName: '',
     lastName: '',
     email: '',
-    ceremonyAndBrunch: '',
-    // plusOnefirstName: '',
-    // plusOnelastName: '',
-    // plusOneemail: '',
-    // plusOne: false,
-    // plusOneceremonyAndBrunch: ''
+    events: '',
   });
   const [isLoading, setIsLoading] = React.useState(false);
-  const [guestListMessage,setGuestListMessage] = React.useState('');
-
-
+  const [guestListMessage, setGuestListMessage] = React.useState('');
   const handleAttending = () => {
     setIsAttending(prev => !prev);
   };
+  const [responseMessage,setResponseMessage] = React.useState('Sending your response...');
 
-  const handleModal = () => {
+  const handlePost = () => {
+    const GUESTMAP = new Map();
+    guestList.forEach(guest => GUESTMAP.set(guest.name, guest.id));
+    console.log('db guestlist',guestList)
+    console.log(values)
+    console.log(GUESTMAP)
     setOpen(prev => !prev);
     setIsLoading(prev => !prev);
-    const isInGuestList = data.has(`${values.firstName.toLowerCase()} ${values.lastName.toLowerCase()}`);
+    const key = `${values.firstName.toLowerCase()} ${values.lastName.toLowerCase()}`;
+    const isInGuestList = GUESTMAP.has(key); // change to id
     console.log('are they even allowed to go?',isInGuestList); 
     let dbMessage = '';
+    if(isInGuestList){
+      const guest = {
+        name: key,
+        email: values.email,
+        events: values.events,
+        isAttending
+      };
 
-    if(isInGuestList && isAttending){
-      dbMessage = `Nice, you're in!`;
-    } else if(isInGuestList && !isAttending) {
-      dbMessage = `Thanks for your response! Keep an eye out for the Live Stream Link :D`;
+      firebase
+        .firestore()
+        .collection('guestlist')
+        .doc(GUESTMAP.get(key))
+        .update(guest);
+        // .then(res => {
+        //   console.log('db response: ',res); // too slow
+      // setTimeout(() => {
+        setIsLoading(false);
+        setResponseMessage('Success');
+        if(isInGuestList && isAttending){
+          dbMessage = `Nice, you're in!`;
+        } else if(isInGuestList && !isAttending) {
+          dbMessage = `Thanks for your response, ${values.firstName}! Keep an eye out for the Live Stream Link :D`;
+        }
+        setGuestListMessage(dbMessage);
+      // }, 3000);
+      // setTimeout(() => {
+        // setOpen(false);
+      // }, 5000); 
     } else {
       dbMessage = `wtf, Something went wrong...ಠ_ಠ`;
+      // setTimeout(() => {
+        setResponseMessage('Shit...');
+        setIsLoading(false);
+        setGuestListMessage(dbMessage);
+        // setTimeout(() => {
+          // setOpen(false);
+        // }, 3000);
+      // }, 3000);
     }
 
-    setTimeout(() => {
-      setIsLoading(false);
-      setGuestListMessage(dbMessage);
-      setTimeout(() => {
-        setOpen(false);
-      }, 3000);
-    }, 3000);
   }
 
   const handleChange = name => event => {
-    setValues({ ...values, [name]: event.target.value });
+    setValues({ ...values, [name]: event.target.value.trim() });
   };
 
   return (
@@ -146,6 +186,8 @@ const RSVP = () => {
               onChange={handleChange('firstName')}
               margin="normal"
               required
+              helperText={values.firstName === '' ? 'We need this to find you in the guest list' : ''}
+              error={values.firstName === ''}
             />
             <TextField
               fullWidth
@@ -156,6 +198,8 @@ const RSVP = () => {
               onChange={handleChange('lastName')}
               margin="normal"
               required
+              helperText={values.lastName === '' ? 'We need this to find you in the guest list' : ''}
+              error={values.lastName === ''}
             />
             <TextField
               fullWidth
@@ -166,22 +210,23 @@ const RSVP = () => {
               onChange={handleChange('email')}
               margin="normal"
               autoComplete="email"
-              required
+              // required
             />
             <FormControlLabel
               control={<Switch checked={isAttending} 
               onChange={handleAttending} />}
-              label="Will you be attending?"
+              disabled={values.firstName === '' || values.lastName === ''}
               className={classes.formLabel}
+              label={!isAttending ? 'Will you be attending?' : `Get ready to have a great time!`}
             />
             <Grow in={isAttending}>
               <FormControl component="fieldset" className={classes.formControl}>
                 <FormLabel component="legend">Meal Option</FormLabel>
                 <RadioGroup 
                   aria-label="attending ceremony and or brunch"
-                  name="ceremonyAndBrunch"
-                  value={values.ceremonyAndBrunch}
-                  onChange={handleChange('ceremonyAndBrunch')}
+                  name="events"
+                  value={values.events}
+                  onChange={handleChange('events')}
                 >
                   <FormControlLabel
                     value="Ceremony"
@@ -194,7 +239,7 @@ const RSVP = () => {
                     label="Ceremony and Brunch"
                   />
                   <FormControlLabel
-                    value="Ceremony and Carne Asada"
+                    value="Ceremony, Brunch &amp; Pre-Game"
                     control={<Radio />}
                     label="Ceremony, Brunch &amp; Pre-Game"
                   />
@@ -209,7 +254,8 @@ const RSVP = () => {
               label="send"
               title="send"
               className={classes.fab}
-              onClick={handleModal}
+              onClick={handlePost}
+              disabled={values.firstName === '' || values.lastName === ''}
             >
               <NavigationIcon />
             </Fab>
@@ -229,7 +275,7 @@ const RSVP = () => {
                     variant="overline"
                     component="p"
                   >
-                    Sending your response ...
+                    {responseMessage}
                   </Typography>
                 </Grid>
               </Grid>
@@ -264,7 +310,7 @@ const RSVP = () => {
           control={
             <a target="_top"
                 rel="noopener noreferrer"
-                href="mailto:Luigi.Campbell@outlook.com">
+                href="mailto:luigi.campbell@outlook.com">
                 <IconButton color="secondary">
                     <EmailIcon />
                 </IconButton>
