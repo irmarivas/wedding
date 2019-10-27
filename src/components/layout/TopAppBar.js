@@ -69,7 +69,7 @@ const TopAppBar = () => {
           <Tab title="Repondre Sil Vous Plait" icon={<RSVPIcon />} aria-label="R.S.V.P." {...a11yProps(2)} />
         </Tabs>
       </AppBar>
-      <TabPanel value={value} index={0}>
+      <TabPanel value={value} index={2}>
         <Timer eventDate={new Date('January 12, 2020 11:30:00')}/>
         <Paper>
           <Box p={1} mt={3}>
@@ -100,7 +100,7 @@ const TopAppBar = () => {
       <TabPanel value={value} index={1}>       
         <About />
       </TabPanel>
-      <TabPanel value={value} index={2}>
+      <TabPanel value={value} index={0}>
         <RSVP />
       </TabPanel>
     </React.Fragment>

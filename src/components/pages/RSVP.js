@@ -1,4 +1,5 @@
 import React from 'react';
+import data from '../../assets/js/data';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Card,
@@ -24,7 +25,8 @@ import {
   Email as EmailIcon,
   Navigation as NavigationIcon
 } from '@material-ui/icons';
-
+// import { FirebaseContext } from '../../firebaseConfig'
+console.log(data);
 const useStyles = makeStyles(theme => ({
   container: {
     display: 'flex',
@@ -66,29 +68,49 @@ const useStyles = makeStyles(theme => ({
 
 const RSVP = () => {
   const classes = useStyles();
-  const [checked, setChecked] = React.useState(false);
+  const [isAttending, setIsAttending] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const [values, setValues] = React.useState({
     firstName: '',
     lastName: '',
     email: '',
-    mealOption: '',
-    plusOnefirstName: '',
-    plusOnelastName: '',
-    plusOneemail: '',
-    plusOne: false,
-    plusOnemealOption: ''
+    ceremonyAndBrunch: '',
+    // plusOnefirstName: '',
+    // plusOnelastName: '',
+    // plusOneemail: '',
+    // plusOne: false,
+    // plusOneceremonyAndBrunch: ''
   });
   const [isLoading, setIsLoading] = React.useState(false);
-  const progressClass = 'classes.isLoading';
+  const [guestListMessage,setGuestListMessage] = React.useState('');
 
-  const handlePlusOne = () => {
-    setChecked(prev => !prev);
+
+  const handleAttending = () => {
+    setIsAttending(prev => !prev);
   };
 
   const handleModal = () => {
     setOpen(prev => !prev);
     setIsLoading(prev => !prev);
+    const isInGuestList = data.has(`${values.firstName.toLowerCase()} ${values.lastName.toLowerCase()}`);
+    console.log('are they even allowed to go?',isInGuestList); 
+    let dbMessage = '';
+
+    if(isInGuestList && isAttending){
+      dbMessage = `Nice, you're in!`;
+    } else if(isInGuestList && !isAttending) {
+      dbMessage = `Thanks for your response! Keep an eye out for the Live Stream Link :D`;
+    } else {
+      dbMessage = `wtf, Something went wrong...ಠ_ಠ`;
+    }
+
+    setTimeout(() => {
+      setIsLoading(false);
+      setGuestListMessage(dbMessage);
+      setTimeout(() => {
+        setOpen(false);
+      }, 3000);
+    }, 3000);
   }
 
   const handleChange = name => event => {
@@ -146,102 +168,46 @@ const RSVP = () => {
               autoComplete="email"
               required
             />
-            <FormControl component="fieldset" className={classes.formControl}>
-              <FormLabel component="legend">Meal Option</FormLabel>
-              <RadioGroup 
-                aria-label="meal type"
-                name="mealType"
-                value={values.mealOption}
-                onChange={handleChange('mealOption')}
-              >
-                <FormControlLabel
-                  value="vegetarian"
-                  control={<Radio />}
-                  label="Vegetarian"
-                />
-                <FormControlLabel
-                  value="meat"
-                  control={<Radio />}
-                  label="Meat"
-                />
-                <FormControlLabel
-                  value="fish"
-                  control={<Radio />}
-                  label="Fish"
-                />
-              </RadioGroup>
-            </FormControl>
             <FormControlLabel
-              control={<Switch checked={checked} 
-              onChange={handlePlusOne} />}
-              label="Will you be bringing a date?"
+              control={<Switch checked={isAttending} 
+              onChange={handleAttending} />}
+              label="Will you be attending?"
               className={classes.formLabel}
             />
-            <Grow in={checked}>
-              <div className={classes.growDiv}>
-                <TextField
-                  fullWidth
-                  id="plus-one-first-name"
-                  label="+1 First Name"
-                  className={classes.textField}
-                  value={values.plusOnefirstName}
-                  onChange={handleChange('plusOnefirstName')}
-                  margin="normal"
-                  required
-                />
-                <TextField
-                  fullWidth
-                  id="plus-one-last-name"
-                  label="+1 Last Name"
-                  className={classes.textField}
-                  value={values.plusOnelastName}
-                  onChange={handleChange('plusOnelastName')}
-                  margin="normal"
-                  required
-                />
-                <TextField
-                  fullWidth
-                  id="plus-one-email"
-                  label="+1 Email"
-                  className={classes.textField}
-                  value={values.plusOneemail}
-                  onChange={handleChange('plusOneemail')}
-                  margin="normal"
-                  autoComplete="email"
-                  required
-                />
-                <FormControl component="fieldset" className={classes.formControl}>
-                  <FormLabel component="legend">+1 Meal Option</FormLabel>
-                  <RadioGroup 
-                    aria-label="meal type"
-                    name="mealType"
-                    value={values.plusOnemealOption}
-                    onChange={handleChange('plusOnemealOption')}
-                  >
-                    <FormControlLabel
-                      value="vegetarian"
-                      control={<Radio />}
-                      label="Vegetarian"
-                    />
-                    <FormControlLabel
-                      value="meat"
-                      control={<Radio />}
-                      label="Meat"
-                    />
-                    <FormControlLabel
-                      value="fish"
-                      control={<Radio />}
-                      label="Fish"
-                    />
-                  </RadioGroup>
-                </FormControl>
-              </div>
+            <Grow in={isAttending}>
+              <FormControl component="fieldset" className={classes.formControl}>
+                <FormLabel component="legend">Meal Option</FormLabel>
+                <RadioGroup 
+                  aria-label="attending ceremony and or brunch"
+                  name="ceremonyAndBrunch"
+                  value={values.ceremonyAndBrunch}
+                  onChange={handleChange('ceremonyAndBrunch')}
+                >
+                  <FormControlLabel
+                    value="Ceremony"
+                    control={<Radio />}
+                    label="Ceremony"
+                  />
+                  <FormControlLabel
+                    value="Ceremony and Brunch"
+                    control={<Radio />}
+                    label="Ceremony and Brunch"
+                  />
+                  <FormControlLabel
+                    value="Ceremony and Carne Asada"
+                    control={<Radio />}
+                    label="Ceremony, Brunch &amp; Pre-Game"
+                  />
+                </RadioGroup>
+              </FormControl>
             </Grow>
           </form>
           <div>
             <Fab 
               color="secondary"
               aria-label="send"
+              label="send"
+              title="send"
               className={classes.fab}
               onClick={handleModal}
             >
@@ -250,48 +216,61 @@ const RSVP = () => {
           </div>
         </Grid>
       </CardContent>
-      <Modal
-        aria-labelledby="sending request"
-        aria-describedby="sending request"
-        open={open}
-      >
-        <Grid container justify="center">
-          <div className={classes.paper}>
-            <Grid item xs={12}>
-              <Grid container justify="center">
-                <Typography 
-                  variant="overline"
-                  component="p"
-                >
-                  Sending your response ...
-                </Typography>
+        <Modal
+          aria-labelledby="sending request"
+          aria-describedby="sending request"
+          open={open}
+        >
+          <Grid container justify="center">
+            <div className={classes.paper}>
+              <Grid item xs={12}>
+                <Grid container justify="center">
+                  <Typography 
+                    variant="overline"
+                    component="p"
+                  >
+                    Sending your response ...
+                  </Typography>
+                </Grid>
               </Grid>
-            </Grid>
-            <Grid item xs={12}>
-              <Grid container justify="center">
-                <CircularProgress className={progressClass} color="secondary" />
+              <Grid item xs={12}>
+                <Grid container justify="center">
+                { isLoading ?
+                  <CircularProgress 
+                    className={classes.isLoading} 
+                    color="secondary"
+                  />:
+                  <Grow in={!isLoading}> 
+                    <Typography
+                      variant="overline"
+                      component="p"
+                    >
+                      {guestListMessage}
+                    </Typography>
+                  </Grow> 
+                }
+                </Grid>
               </Grid>
-            </Grid>
-          </div>
-        </Grid>
-      </Modal>
+            </div>
+          </Grid>
+        </Modal>
       <Divider />
       <Typography 
         variant="caption" 
         component="p"
-        align="justify"
+        align="center"
       >
         <FormControlLabel
           control={
             <a target="_top"
                 rel="noopener noreferrer"
                 href="mailto:Luigi.Campbell@outlook.com">
-                <IconButton color="primary">
+                <IconButton color="secondary">
                     <EmailIcon />
                 </IconButton>
             </a>
           }
-          label={" If anything comes up, please email: Luigi.Campbell@outlook.com with the subject tag **RSVP** NOTE: The bag of fucks empties out the day of the wedding ~"}
+          label={" Problem? Set the subject tag to **RSVP** NOTE: The bag of fucks is empty the day of the wedding ~"}
           labelPlacement="end"
         />
       </Typography>
