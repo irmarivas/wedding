@@ -9,9 +9,10 @@ import {
   FavoriteTwoTone as HeartIcon,
   SendTwoTone as RSVPIcon,
 } from '@material-ui/icons/';
-import { AppBar, Box, Paper, Tabs, Tab, Typography } from '@material-ui/core';
+import { AppBar, Box, Divider, Paper, Tabs, Tab, Typography } from '@material-ui/core';
 import useWindowSize from 'react-use/lib/useWindowSize';
 import Confetti from 'react-confetti';
+const firecracker = require('../../assets/images/luigi_assumes_irma_is_his_girlfriend.jpg');
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -53,6 +54,7 @@ const TopAppBar = () => {
   return (
     <React.Fragment>
       <Confetti
+        // run={false}
         width={width}
         height={height}
         colors={['#ff007f','red','#ffdee3','#ffd3dc','#fdcbd5','#ffc2d4','#ffb9cb']}
@@ -69,7 +71,7 @@ const TopAppBar = () => {
           <Tab title="Repondre Sil Vous Plait" icon={<RSVPIcon />} aria-label="R.S.V.P." {...a11yProps(2)} />
         </Tabs>
       </AppBar>
-      <TabPanel value={value} index={2}>
+      <TabPanel value={value} index={0}>
         <Timer eventDate={new Date('January 12, 2020 11:30:00')}/>
         <Paper>
           <Box p={1} mt={3}>
@@ -98,9 +100,67 @@ const TopAppBar = () => {
         />
       </TabPanel>
       <TabPanel value={value} index={1}>       
-        <About />
+        <About
+          cardTitle={`Our first few dates`}
+          cardHeaderTitle={`Downtown Claremont`}
+          cardSubHeader={`Friday, January 20, 2017`}
+          cardMediaTitle={`Smile for the Camera`}
+          highlight={`Irma and Luigi's adventure began on January 15, 2017 in Los Angeles, where they met for the first     time on a blind date. Irma had answered the first of three important questions with a resounding 'yes', or was    it an 'ok...'-mayhaps an eyeroll?\n\n
+            Luigi made his way through the narrow streets of East Hollywood for the first of many times to Irms' apartment. He remembered looking at her boots and thinking, "Noice". That first date was a trek around the city of angels; it included Thai food, getting drinks and beignets at the Black Cat, watching LaLaLand at the Vista, and grabbing coffee at Caffe Vita. The date lasted all day. Between the two of them, the conversational topics were endless.  It was a date for the coloring books.       `}
+          cardImage={`https://lh3.googleusercontent.com/enISAD58Y-m3hk6wxIru2bHF2WT8OwCrenvUdiMHiWHF_xKz7OShCEz-vV1-f1zy9f_-OmupDvQ_QKyyYuLEzcRJs6wYQOvaL2JGS1PSF3uY6_fGZfFFPTozpEjrNypQX4PIbA4Xkw=w575-h767-no`}
+        />
+        <Divider />
+        <About
+          cardTitle={`Luigi asks the second Big Question`}
+          cardHeaderTitle={`Chinatown's Year of the Cock (tee hee) Race`}
+          cardSubHeader={`Sunday, February 12, 2017`}
+          cardMediaTitle={`Winners`}
+          highlight={`The following weekend was a trip through Claremont after waiting for what seemed like eternity, for Luigi to finish his Grad Paper on Mathematics Education. Countless episodes of Game of Thrones could not satiate Irms' thirst for travel and exploring, so Luigi took her to the streets of downtown, eating, drinking and engaging in merry-making. Twas many fun.\n\n
+
+          On February 12th, 2017 they ran the firecracker 5k in Chinatown, where Luigi asked Irma the second of three important questions "you’re my girlfriend, right?" To which Irma replied, "Um... you haven't asked me to be your girlfriend yet." then silence, followed by laughter and Luigi proceeded to ask "Irma will you be my girlfriend?" From then on they continued to grow their journey together.`
+          }
+          cardImage={firecracker}
+        />
+        <Divider />
+        <About
+          cardTitle={`Our first camping trip`}
+          cardHeaderTitle={`Little Harbor, Catalina Island`}
+          cardSubHeader={`Saturday, November 25, 2017`}
+          cardMediaTitle={`We got lost`}
+          highlight={`Despite their shared love for ice cream, Irms was particular about exercising. Luigi took this opportunity to get into shape by running with Irms for 5ks using fixed interval training. They ran in Silver Lake, Echo Park, Southridge, Santa Monica, Runyon Canyon, Lake Arrowhead, Arrow Bike Path, East Hollywood and Barnsdall Park. Luigi and Irms also shared a passion for hiking, eloping for weekends to climb and hike Joshua Tree, Rancho Cucamonga, Cahuenga Peak, Saddle Peak, Solstice Canyon, Tillamook, Santa Barbara and countless other sites.  
+           
+          Such an active lifestyle encouraged a voracious appetite. Irms and El  would frequent the various arts districts, EHo, WeHo, DTLA, Larchmont, Burbank and Malibu mostly getting ice cream. Incidentally, they prefer McConnell's, Salt and Straw and Jeni's from favorite to favoritest, respectively. They currently reside in KTown creeping at Tipsi by Chef Kang (where the chili is fantastic).`
+          }
+          cardImage={`https://lh3.googleusercontent.com/5PZOldjxaXFFPG5-JidT_3-qf_rpKhUbRNTPXd7Kq2nU2VWENjYyVD86VnY5HMHgaN4JUDnN24db6pvWCFYgVFk-mAg-w-qB8he1J3e1b8qabj2MrfgMn8IKR7fNoqKBlw7Kx3oMzg=w576-h767-no`}
+        />
+        <Divider />
+        <About
+          cardTitle={`Jungle Adventure (Ricardo's Birthday)`}
+          cardHeaderTitle={`Tlalolulco, Jalisco`}
+          cardSubHeader={`Sunday, July 23, 2017`}
+          cardMediaTitle={`We got lost`}
+          highlight={`Irms loves to travel, and Luigi picked up on it right away, having grown up traveling with his family. Luigi surprised Irms with a mutually planned roadtrip to Portland, Oregon. It was an unforgettable slide down Siskiyou Pass culminating at the Tulip Festiva after meeting Zach, an old friend. This was just the beginning of their Travels. In the fall they camped out for a week on Catalina Island, in Little Harbor. They trekked through the mountains for 12 hours to ressupply despite planning ahead of time. They battled coyotes, pitch black stretches of grassland, and steep slopes to get back to their glorious tent on a cliff, overlooking the ocean. 
+            
+          El had never experienced such exhiliration with another person in the face of the unknown. This pushed him to finally take his girl to his home town and meet his God Father, Ricardo. Luigi enlisted the help of his aunt, Marta Espinosa, to show Irma the world he grew up in. They journeyed through jungles, mountains, busy markets, narrow streets, vibrant villages and old cities. The last place they visited was of course his home town of El Grullo, Jalisco, where Irms finally met El's God Father and Grand Father. Irma's ride or die attitude opened a door in Luigi that he doubted would ever open.`
+          }
+          cardImage={`https://lh3.googleusercontent.com/2q0Yq4X63RNW7HMWVZjhzahKWXCpIoa8-KaXe-KYjozFs4HbjTsaEtTil1p3ron9j-26nDRADmVDCmog-g-yDTOK5jztWqtuajJRDMpJDxLjcAgJYw3Yfb6CLMeBli2cTwx65jgHIA=w1154-h767-no`}
+          SameSite='None'
+        />
+        <Divider />
+        <About
+          cardTitle={`Gettin' gelato en Roma, (not DF)`}
+          cardHeaderTitle={`Rome, Italy`}
+          cardSubHeader={`Saturday, November 24, 2018`}
+          cardMediaTitle={`We got lost`}
+          highlight={`Luigi immediately began to plan elaborate ways to show her how much she meant to him. He conspired with her friend Ana Tiger. Many failed ideas later, including enlisting her father and brother to kidnap him a film a ransom video, He figured it out-take her to London and on the Eye overlooking the Thames, at the zenith ask her for her hand.
+            
+          In mid June 2018 Luigi began to plan a special trip around Europe for the both of them. The trip was truly memorable; Dinner at Dishoom's was spectacular, Irms didn't want to go on the Eye, a Brexit protest, some missed flights (It’s too long of a story to type), uncomfortable bed situations at hotels. After missing the first opportunity to propose, El tried to lure Irms to the Castle after their night at the Christmas Market in Edinburgh and he realized that although he had got the perfect spot, he had forgotten the ring in his bag. They ended up going to Italy where he bought her some Ice Cream, took her to all the sights and as he was about to take her out in front of the Vatican again to propose, the Residenza Palazzo had locked them in due to the curfew for the Pope's mass the next day-needless to say fuuuuuuuuck... but through it all being together was all that mattered and on November 25, 2018 in Nice, France on the last day of the trip, Luigi took Irma on a walk on the Rue Des Anglais in the French Riviera where he got down on one knee and asked Irma the third big question, "Will you marry me?" and the rest is history in progress.`
+          }
+          cardImage={`https://lh3.googleusercontent.com/KMsZhq45cWzeUmqSx9dAl5iTTpjaL3Gs6Px5sulDaxlTclWNUZhf31cnn3JlwzfF4gKSYgyf1UnMHv-ziAJgs4oCRBqT9Aj30sE36whHq6DzGqPShzr1rGG7Hf12mx-D4i2XVj0SIQ=w1279-h959-no`}
+          SameSite='None'
+        />
       </TabPanel>
-      <TabPanel value={value} index={0}>
+      <TabPanel value={value} index={2}>
         <RSVP />
       </TabPanel>
     </React.Fragment>

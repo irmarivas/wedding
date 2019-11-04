@@ -1,5 +1,5 @@
 import React from 'react';
-import data from '../../assets/js/data';
+// import data from '../../assets/js/data';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Card,
@@ -25,10 +25,8 @@ import {
   Email as EmailIcon,
   Navigation as NavigationIcon
 } from '@material-ui/icons';
-
 import firebase from '../../firebaseConfig/firebase';
-// data.forEach(guest => firebase.firestore().collection('guestlist').add(guest) );
-console.log('local data before map',data);
+
 const useStyles = makeStyles(theme => ({
   container: {
     display: 'flex',
@@ -73,17 +71,25 @@ const RSVP = () => {
   const [guestList, setGuestList] = React.useState([]);
   
   React.useEffect(() => {
-    firebase
-      .firestore()
-      .collection('guestlist')
-      .onSnapshot(snapshot => {
-        const guests = snapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }));
-        setGuestList(guests);
-      });
+    firebase.auth().signInAnonymously();
+    firebase.auth().onAuthStateChanged(firebaseUser => {
+      if(firebaseUser){
+        firebase
+          .firestore()
+          .collection('guestlist')
+          .onSnapshot(snapshot => {
+            const guests = snapshot.docs.map(doc => ({
+              id: doc.id,
+              ...doc.data()
+            }));
+            setGuestList(guests);
+          });
+      } else {
+        console.log('Who are you...?');
+      }
+    })
   }, [guestList]);
+  
   const [isAttending, setIsAttending] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const [values, setValues] = React.useState({
@@ -98,35 +104,45 @@ const RSVP = () => {
     setIsAttending(prev => !prev);
   };
   const [responseMessage,setResponseMessage] = React.useState('Sending your response...');
-
+  // const populateDatabase = () => {
+  //   console.log('pushing data');
+  //   data.forEach(guest => firebase.firestore().collection('guestlist').add(guest).catch(err=>console.log(err)) );
+  // }
   const handlePost = () => {
     const GUESTMAP = new Map();
+    // populateDatabase();
     guestList.forEach(guest => GUESTMAP.set(guest.name, guest.id));
-    console.log('db guestlist',guestList)
-    console.log(values)
-    console.log(GUESTMAP)
+    // console.log('db guestlist',guestList)
+    // console.log(values)
+    // console.log(GUESTMAP)
     setOpen(prev => !prev);
     setIsLoading(prev => !prev);
     const key = `${values.firstName.toLowerCase()} ${values.lastName.toLowerCase()}`;
-    const isInGuestList = GUESTMAP.has(key); // change to id
-    console.log('are they even allowed to go?',isInGuestList); 
+    const url = new URL(window.location);
+    const guestKey = url.searchParams.get('guestId'); 
+    const isInGuestList = GUESTMAP.has(key) && guestKey === GUESTMAP.get(key);
+    // console.log('are they even allowed to go?',isInGuestList);
     let dbMessage = '';
     if(isInGuestList){
+      const events = values.events;
+      // console.log(events);
       const guest = {
         name: key,
         email: values.email,
-        events: values.events,
+        events: events !== undefined && events !== '' ? events : 'Ceremony',
         isAttending
       };
-
-      firebase
+      const guestRef = firebase
         .firestore()
         .collection('guestlist')
-        .doc(GUESTMAP.get(key))
-        .update(guest);
-        // .then(res => {
-        //   console.log('db response: ',res); // too slow
-      // setTimeout(() => {
+        .doc(GUESTMAP.get(key));
+      firebase.firestore().runTransaction(t => {
+        return t.get(guestRef)
+          .then(doc => {
+            t.update(guestRef, guest);
+          })
+      }).then(r => {
+        // console.log('SUCCESS');
         setIsLoading(false);
         setResponseMessage('Success');
         if(isInGuestList && isAttending){
@@ -135,20 +151,31 @@ const RSVP = () => {
           dbMessage = `Thanks for your response, ${values.firstName}! Keep an eye out for the Live Stream Link :D`;
         }
         setGuestListMessage(dbMessage);
-      // }, 3000);
-      // setTimeout(() => {
-        // setOpen(false);
-      // }, 5000); 
-    } else {
-      dbMessage = `wtf, Something went wrong...ಠ_ಠ`;
-      // setTimeout(() => {
+        setTimeout(() => {
+          setOpen(false);
+        }, 3000); 
+      }).catch(e => {
+        console.log('Oh no, I booped an ERROR...', e);
+        dbMessage = `wtf, Something went wrong...ಠ_ಠ`;
         setResponseMessage('Shit...');
         setIsLoading(false);
         setGuestListMessage(dbMessage);
-        // setTimeout(() => {
-          // setOpen(false);
-        // }, 3000);
-      // }, 3000);
+        setTimeout(() => {
+          setOpen(false);
+        }, 2500);
+      });
+        
+    } else {
+      setTimeout(() => {
+        dbMessage = `wtf, Something went wrong...ಠ_ಠ`;
+        setResponseMessage('Shit...');
+        setIsLoading(false);
+        setGuestListMessage(dbMessage);
+
+        setTimeout(() => {
+          setOpen(false);
+        }, 2500);
+      }, 1000);
     }
 
   }
