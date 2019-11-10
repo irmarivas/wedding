@@ -21,7 +21,9 @@ const Map = (
     locationType,
     message,
     subheader,
-    title
+    title,
+    zoom,
+    footer
   }
 ) => {
   const classes = useStyles();
@@ -30,7 +32,7 @@ const Map = (
     height: 400,
     latitude: lat,
     longitude: long,
-    zoom: 17
+    zoom: zoom
   });
 
   return (
@@ -84,7 +86,7 @@ const Map = (
         <Divider />
         <Box p={1}>
         <Typography component="p" variant="overline">
-         **Parking is free on-site and there is street-parking, at your discretion. We recommend UBERing.
+         {footer}
         </Typography>
         </Box>
       </Card>

@@ -31,6 +31,13 @@ const useStyles = makeStyles(theme => ({
       display: 'block',
     },
   },
+  timerText: {
+    fontSize: '1rem',
+    fontFamily: 'Cookie',
+    [theme.breakpoints.up('sm')]: {
+      fontSize:'2rem',
+    },
+  }
 }));
 
 const Timer = ({ eventDate }) => {
@@ -131,18 +138,22 @@ const Timer = ({ eventDate }) => {
             {!isLoading ? 
             (
               <CardContent>
-                <Typography component="h1" variant="overline" style={{fontSize:'2.5rem'}}>
-                  {addLeadingZeros(timeLeft.days)}{timeLeft.seconds % 2 === 0 ? ':' : ' '}
+                <Typography component="h1" variant="overline" className={classes.timerText}>
+                {/* <Typography component="h1" variant="overline" style={{fontSize:'2.5rem'}}> */}
+                  {/* {addLeadingZeros(timeLeft.days)}{timeLeft.seconds % 2 === 0 ? ':' : ' '}
                   {addLeadingZeros(timeLeft.hours)}{timeLeft.seconds % 2 === 0 ? ':' : ' '}
-                  {addLeadingZeros(timeLeft.minutes)}{timeLeft.seconds % 2 === 0 ? ':' : ' '}
-                  {addLeadingZeros(timeLeft.seconds)}
+                  {addLeadingZeros(timeLeft.minutes)}{timeLeft.seconds % 2 === 0 ? ':' : ' '} */}
+                  {addLeadingZeros(timeLeft.days)}{' d  '}
+                  {addLeadingZeros(timeLeft.hours)}{' h '}
+                  {addLeadingZeros(timeLeft.minutes)}{' m '}
+                  {addLeadingZeros(timeLeft.seconds)}{' s'}
                 </Typography>
-                <Typography variant="caption">
+                {/* <Typography variant="caption">
                   &nbsp;&nbsp;&nbsp;&nbsp;Days&nbsp;&nbsp;&nbsp;&nbsp;|
                   &nbsp;&nbsp;&nbsp;Hours&nbsp;&nbsp;&nbsp;&nbsp;|
                   &nbsp;&nbsp;Minutes&nbsp;&nbsp;|
                   &nbsp;&nbsp;Seconds
-                </Typography>
+                </Typography> */}
               </CardContent>
             ) :
             (

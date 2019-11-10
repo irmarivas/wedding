@@ -248,9 +248,9 @@ const RSVP = () => {
             />
             <Grow in={isAttending}>
               <FormControl component="fieldset" className={classes.formControl}>
-                <FormLabel component="legend">Meal Option</FormLabel>
+                <FormLabel component="legend">Events List &#8226; Pre Game and Reception Venues TBD</FormLabel>
                 <RadioGroup 
-                  aria-label="attending ceremony and or brunch"
+                  aria-label="attending ceremony and or reception"
                   name="events"
                   value={values.events}
                   onChange={handleChange('events')}
@@ -261,14 +261,14 @@ const RSVP = () => {
                     label="Ceremony"
                   />
                   <FormControlLabel
-                    value="Ceremony and Brunch"
+                    value="Ceremony and Reception"
                     control={<Radio />}
-                    label="Ceremony and Brunch"
+                    label="Ceremony and Reception - 1:00 pm &#8226; 3:30 pm"
                   />
                   <FormControlLabel
-                    value="Ceremony, Brunch &amp; Pre-Game"
+                    value="Ceremony, Reception &amp; Pre-Game"
                     control={<Radio />}
-                    label="Ceremony, Brunch &amp; Pre-Game"
+                    label="Ceremony, Reception &amp; Pre-Game - starts around &#8226; 3pm **Saturday**"
                   />
                 </RadioGroup>
               </FormControl>
@@ -343,9 +343,9 @@ const RSVP = () => {
                 </IconButton>
             </a>
           }
-          label={" Problem? Set the subject tag to **RSVP** NOTE: The bag of fucks is empty the day of the wedding ~"}
+          label={"Problem?"}
           labelPlacement="end"
-        />
+        /> No problem! Set the subject tag to **RSVP** NOTE: The bag of fucks is empty the day of the wedding ~
       </Typography>
     </Card>
   );

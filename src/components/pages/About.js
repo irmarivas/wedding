@@ -2,15 +2,12 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import  { 
-  // Box,
   Card, 
   CardContent, 
   CardHeader,
   CardMedia,
   Divider
 } from '@material-ui/core';
-// const profilePic = require('../../assets/images/luigi_assumes_irma_is_his_girlfriend.jpg');
-// pull all images from storage and put them in a map? get them by propkey
 
 const useStyles = makeStyles(theme => ({
   media: {
@@ -32,13 +29,12 @@ const useStyles = makeStyles(theme => ({
       marginBottom: 15
     },
   },
-  highlitedText:{
-    textDecoration: 'underline',
-    textDecorationColor: '#F1AB00',
-    textDecorationStyle: 'double'
-  },
-  avatar: {
-    backgroundColor: '#F1AB00',
+  aboutText: {
+    fontFamily: 'Cookie',
+    fontSize: '1.2rem',
+    [theme.breakpoints.up('sm')]: {
+      fontSize: '2rem'
+    },
   }
 }));
 
@@ -82,22 +78,12 @@ const  About = ({
           <Typography
             component="p"
             align="justify"
-            variant="overline"
+            className={classes.aboutText}
           >
             {highlight}
           </Typography>
         </CardContent>
         <Divider />
-        {/* <Box p={1}>
-          <Typography 
-            component="p"
-            align="center"
-            variant="overline"
-          >
-            Hi there, thanks for stopping by. I'm currently under construction. 
-            Luigi Campbell, Software Engineer, Full Stack Dev, Salesforce Dev. Contact: luigi.campbell@outlook.com
-          </Typography>
-        </Box> */}
       </Card>
     </div>
   );
