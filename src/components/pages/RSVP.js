@@ -160,7 +160,7 @@ const RSVP = () => {
             t.update(guestRef, guest);
           })
       }).then(r => {
-        console.log('SUCCESS');
+        // console.log('SUCCESS');
         setIsLoading(false);
         setResponseMessage('Success');
         if(isInGuestList && isAttending){
@@ -266,7 +266,7 @@ const RSVP = () => {
             />
             <Grow in={isAttending}>
               <FormControl component="fieldset" className={classes.formControl}>
-                <FormLabel component="legend">Events List &#8226; Pre Game and Reception Venues TBD</FormLabel>
+                <FormLabel component="legend">Events List &#8226; Pre-Game - TBD by D &amp; E</FormLabel>
                 <RadioGroup 
                   aria-label="attending ceremony and or reception"
                   name="events"
@@ -281,12 +281,12 @@ const RSVP = () => {
                   <FormControlLabel
                     value="Ceremony and Reception"
                     control={<Radio />}
-                    label="Ceremony and Reception - 1:00 pm &#8226; 3:30 pm"
+                    label="Ceremony and Reception"
                   />
                   <FormControlLabel
                     value="Ceremony, Reception &amp; Pre-Game"
                     control={<Radio />}
-                    label="Ceremony, Reception &amp; Pre-Game - starts around &#8226; 3pm **Saturday**"
+                    label="Ceremony, Reception &amp; Pre-Game"
                   />
                 </RadioGroup>
               </FormControl>
