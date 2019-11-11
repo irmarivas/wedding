@@ -100,7 +100,7 @@ const TopAppBar = () => {
               component="p"
               className={classes.headerText}
             >
-              You can also read about our love story and if are so inclined, speak to &#8226;Jessica Shoemaker&#8226; about our Honeymoon Fund deposit box.
+              You can also read about our love story and if are so inclined, email &#8226;Luigi&#8226; about our Honeymoon Fund deposit box.
               So have fun, take a look around and don’t forget to RSVP!
               Finally, thank you for your ongoing love and support. We are excited to share this day with you and look forward to eating some good food with all our favorite people!
             </Typography>
