@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 // import data from '../../assets/js/data';
 import { makeStyles } from '@material-ui/core/styles';
 import {
@@ -62,15 +62,28 @@ const useStyles = makeStyles(theme => ({
   },
   textField: {
     marginLeft: theme.spacing(2),
-    marginRight: theme.spacing(2),
+    marginRight: theme.spacing(2)
   },
 }));
 
 const RSVP = () => {
   const classes = useStyles();
-  const [guestList, setGuestList] = React.useState([]);
-  
-  React.useEffect(() => {
+  const toTitleCase = s => s.replace(/\w\S*/g, t => t.charAt(0).toUpperCase() + t.substring(1).toLowerCase() ); 
+  const [values, setValues] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    events: '',
+    id: ''
+  });
+  const [isClean, setIsClean] = useState(false);
+  const [isAttending, setIsAttending] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [guestListMessage, setGuestListMessage] = useState('');
+  const [responseMessage,setResponseMessage] = useState('Sending your response...');
+
+  useEffect(() => {
     firebase.auth().signInAnonymously();
     firebase.auth().onAuthStateChanged(firebaseUser => {
       if(firebaseUser){
@@ -82,67 +95,72 @@ const RSVP = () => {
               id: doc.id,
               ...doc.data()
             }));
-            setGuestList(guests);
+            if(!isClean) {
+              const GUESTMAP = new Map();
+
+              guests.forEach(guest => GUESTMAP.set(guest.id,{ firstName: guest.firstName, lastName: guest.lastName}));
+              const url = new URL(window.location);
+              const guestKey = url.searchParams.get('guestId');
+              if(guestKey) {
+                const g = GUESTMAP.get(guestKey);
+                // console.log(values);
+                const firstName = g ? toTitleCase(g.firstName) : '';
+                const lastName = g ? toTitleCase(g.lastName) : '';
+                const id = guestKey ? guestKey : ''
+                const email = '';
+                const events = '';
+                
+                setValues({ 
+                  firstName,
+                  lastName,
+                  id,
+                  email,
+                  events
+                });
+                setIsClean(true);
+              }
+            }
           });
       } else {
         console.log('Who are you...?');
       }
-    })
-  }, [guestList]);
-  
-  const [isAttending, setIsAttending] = React.useState(false);
-  const [open, setOpen] = React.useState(false);
-  const [values, setValues] = React.useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    events: '',
-  });
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [guestListMessage, setGuestListMessage] = React.useState('');
+    });
+
+  }, [values, isClean]);
+
   const handleAttending = () => {
     setIsAttending(prev => !prev);
   };
-  const [responseMessage,setResponseMessage] = React.useState('Sending your response...');
   // const populateDatabase = () => {
   //   console.log('pushing data');
   //   data.forEach(guest => firebase.firestore().collection('guestlist').add(guest).catch(err=>console.log(err)) );
   // }
   const handlePost = () => {
-    const GUESTMAP = new Map();
-    // populateDatabase();
-    guestList.forEach(guest => GUESTMAP.set(guest.name, guest.id));
-    // console.log('db guestlist',guestList)
-    // console.log(values)
-    // console.log(GUESTMAP)
-    setOpen(prev => !prev);
-    setIsLoading(prev => !prev);
-    const key = `${values.firstName.toLowerCase()} ${values.lastName.toLowerCase()}`;
-    const url = new URL(window.location);
-    const guestKey = url.searchParams.get('guestId'); 
-    const isInGuestList = GUESTMAP.has(key) && guestKey === GUESTMAP.get(key);
-    // console.log('are they even allowed to go?',isInGuestList);
+    const isInGuestList = values.id !== '' && values.id !== undefined;
+    setIsLoading(true);
+    setOpen(true);
     let dbMessage = '';
     if(isInGuestList){
       const events = values.events;
       // console.log(events);
       const guest = {
-        name: key,
+        firstName: values.firstName.toLowerCase(),
+        lastName: values.lastName.toLowerCase(),
         email: values.email,
-        events: events !== undefined && events !== '' ? events : 'Ceremony',
+        events: events !== undefined && events !== '' ? events : isAttending ? 'Ceremony' : '',
         isAttending
       };
       const guestRef = firebase
         .firestore()
         .collection('guestlist')
-        .doc(GUESTMAP.get(key));
+        .doc(values.id);
       firebase.firestore().runTransaction(t => {
         return t.get(guestRef)
           .then(doc => {
             t.update(guestRef, guest);
           })
       }).then(r => {
-        // console.log('SUCCESS');
+        console.log('SUCCESS');
         setIsLoading(false);
         setResponseMessage('Success');
         if(isInGuestList && isAttending){
@@ -343,9 +361,9 @@ const RSVP = () => {
                 </IconButton>
             </a>
           }
-          label={"Problem?"}
+          label={"Problem? Set the subject tag to **RSVP** NOTE: The bag of fucks is empty the day of the wedding ~"}
           labelPlacement="end"
-        /> No problem! Set the subject tag to **RSVP** NOTE: The bag of fucks is empty the day of the wedding ~
+        />
       </Typography>
     </Card>
   );

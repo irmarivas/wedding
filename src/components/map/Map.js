@@ -85,7 +85,11 @@ const Map = (
         </CardContent>
         <Divider />
         <Box p={1}>
-        <Typography component="p" variant="overline">
+        <Typography 
+          component="p" 
+          variant="overline"
+          align="center"
+        >
          {footer}
         </Typography>
         </Box>

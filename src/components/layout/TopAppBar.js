@@ -17,7 +17,8 @@ const firecracker = require('../../assets/images/luigi_assumes_irma_is_his_girlf
 
  const useStyles = makeStyles(theme => ({
     headerText: {
-      fontFamily: 'Cookie'
+      fontFamily: 'Cookie',
+      fontSize: '1.5rem'
     }
   }));
 
@@ -93,7 +94,13 @@ const TopAppBar = () => {
               Irma and Luigi are officially joining forces!
               Welcome to our wedding website, we can’t wait to celebrate our special day with you.
               We’ve created this website as a convenient and interactive way to share all of the important details with you in the lead up to our wedding. 
-              You can also read about our love story and check out our <a href="https://www.crateandbarrel.com/gift-registry/luigi-campbell-and-irma-rivas/r6049906" title="registry" alt="registry" >registry</a> information too.
+            </Typography>
+            <Divider />
+            <Typography
+              component="p"
+              className={classes.headerText}
+            >
+              You can also read about our love story and if are so inclined, speak to &#8226;Jessica Shoemaker&#8226; about our Honeymoon Fund deposit box.
               So have fun, take a look around and don’t forget to RSVP!
               Finally, thank you for your ongoing love and support. We are excited to share this day with you and look forward to eating some good food with all our favorite people!
             </Typography>

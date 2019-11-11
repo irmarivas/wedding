@@ -114,8 +114,8 @@ const Timer = ({ eventDate }) => {
             <CardHeader
               aria-label="save the date"
               disableTypography={false}
-              title="Irma and Luigi Join Forces - Save The Date"
-              subheader="Sunday, January 12, 2020"
+              title="Irma and Luigi Join Forces"
+              subheader="Save The Date &#8226; Sunday, January 12, 2020"
               titleTypographyProps={
                 {
                   variant:'overline'
@@ -139,21 +139,11 @@ const Timer = ({ eventDate }) => {
             (
               <CardContent>
                 <Typography component="h1" variant="overline" className={classes.timerText}>
-                {/* <Typography component="h1" variant="overline" style={{fontSize:'2.5rem'}}> */}
-                  {/* {addLeadingZeros(timeLeft.days)}{timeLeft.seconds % 2 === 0 ? ':' : ' '}
-                  {addLeadingZeros(timeLeft.hours)}{timeLeft.seconds % 2 === 0 ? ':' : ' '}
-                  {addLeadingZeros(timeLeft.minutes)}{timeLeft.seconds % 2 === 0 ? ':' : ' '} */}
                   {addLeadingZeros(timeLeft.days)}{' d  '}
                   {addLeadingZeros(timeLeft.hours)}{' h '}
                   {addLeadingZeros(timeLeft.minutes)}{' m '}
                   {addLeadingZeros(timeLeft.seconds)}{' s'}
                 </Typography>
-                {/* <Typography variant="caption">
-                  &nbsp;&nbsp;&nbsp;&nbsp;Days&nbsp;&nbsp;&nbsp;&nbsp;|
-                  &nbsp;&nbsp;&nbsp;Hours&nbsp;&nbsp;&nbsp;&nbsp;|
-                  &nbsp;&nbsp;Minutes&nbsp;&nbsp;|
-                  &nbsp;&nbsp;Seconds
-                </Typography> */}
               </CardContent>
             ) :
             (
