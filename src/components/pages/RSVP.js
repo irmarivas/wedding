@@ -97,7 +97,7 @@ const RSVP = () => {
             }));
             if(!isClean) {
               const GUESTMAP = new Map();
-
+              // console.log(guests)
               guests.forEach(guest => GUESTMAP.set(guest.id,{ firstName: guest.firstName, lastName: guest.lastName}));
               const url = new URL(window.location);
               const guestKey = url.searchParams.get('guestId');
@@ -171,6 +171,7 @@ const RSVP = () => {
         setGuestListMessage(dbMessage);
         setTimeout(() => {
           setOpen(false);
+          setResponseMessage('Sending your response...');
         }, 3000); 
       }).catch(e => {
         console.log('Oh no, I booped an ERROR...', e);
@@ -180,6 +181,7 @@ const RSVP = () => {
         setGuestListMessage(dbMessage);
         setTimeout(() => {
           setOpen(false);
+          setResponseMessage('Sending your response...');
         }, 2500);
       });
         
@@ -192,6 +194,7 @@ const RSVP = () => {
 
         setTimeout(() => {
           setOpen(false);
+          setResponseMessage('Sending your response...');
         }, 2500);
       }, 1000);
     }
