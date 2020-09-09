@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 // import data from '../../assets/js/data';
 import { makeStyles } from '@material-ui/core/styles';
 import {
+  Box,
   Card,
   CardHeader,
   CardContent,
@@ -68,7 +69,13 @@ const useStyles = makeStyles(theme => ({
 
 const RSVP = () => {
   const classes = useStyles();
-  const toTitleCase = s => s.replace(/\w\S*/g, t => t.charAt(0).toUpperCase() + t.substring(1).toLowerCase() ); 
+  const toTitleCase = s => {
+    s = s.toLowerCase().split(' ');
+    for (var i = 0; i < s.length; i++) {
+      s[i] = s[i].charAt(0).toUpperCase() + s[i].slice(1);
+    }
+    return s.join(' ');
+  }; 
   const [values, setValues] = useState({
     firstName: '',
     lastName: '',
@@ -211,7 +218,7 @@ const RSVP = () => {
         aria-label="save the date"
         disableTypography={false}
         title="RSVP"
-        subheader="Deadline is January 2nd"
+        subheader="Thanks everyone, for your prompt responses."
         titleTypographyProps={
           {
             variant:'overline'
@@ -269,7 +276,7 @@ const RSVP = () => {
             />
             <Grow in={isAttending}>
               <FormControl component="fieldset" className={classes.formControl}>
-                <FormLabel component="legend">Events List &#8226; Pre-Game - TBD by D &amp; E</FormLabel>
+                <FormLabel component="legend">&#8226; Events List &#8226;</FormLabel>
                 <RadioGroup 
                   aria-label="attending ceremony and or reception"
                   name="events"
@@ -285,11 +292,6 @@ const RSVP = () => {
                     value="Ceremony and Reception"
                     control={<Radio />}
                     label="Ceremony and Reception"
-                  />
-                  <FormControlLabel
-                    value="Ceremony, Reception &amp; Pre-Game"
-                    control={<Radio />}
-                    label="Ceremony, Reception &amp; Pre-Game"
                   />
                 </RadioGroup>
               </FormControl>
@@ -349,6 +351,7 @@ const RSVP = () => {
           </Grid>
         </Modal>
       <Divider />
+      <Box p={2}>
       <Typography 
         variant="caption" 
         component="p"
@@ -364,10 +367,11 @@ const RSVP = () => {
                 </IconButton>
             </a>
           }
-          label={"Problem? Set the subject tag to **RSVP** NOTE: The bag of fucks is empty the day of the wedding ~"}
+          label={"Problem? No problem! Set the subject tag to **RSVP**"}
           labelPlacement="end"
-        />
+        />NOTE: We will not be responding the Night before or Day of the Wedding!
       </Typography>
+      </Box>
     </Card>
   );
 }

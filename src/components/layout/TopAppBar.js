@@ -3,13 +3,15 @@ import PropTypes from 'prop-types';
 import Timer from '../timer/Timer';
 import About from '../pages/About';
 import RSVP from '../pages/RSVP';
+import Confirmed from '../pages/Confirmed';
 import Map from '../map/Map';
 import {
   HomeTwoTone as HomeIcon,
   FavoriteTwoTone as HeartIcon,
   SendTwoTone as RSVPIcon,
+  HowToRegTwoTone
 } from '@material-ui/icons/';
-import { AppBar, Box, Divider, Paper, Tabs, Tab, Typography } from '@material-ui/core';
+import { AppBar, Box, Divider, Link, Paper, Tabs, Tab, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import useWindowSize from 'react-use/lib/useWindowSize';
 import Confetti from 'react-confetti';
@@ -19,6 +21,9 @@ const firecracker = require('../../assets/images/luigi_assumes_irma_is_his_girlf
     headerText: {
       fontFamily: 'Cookie',
       fontSize: '1.5rem'
+    },
+    link: {
+      margin: theme.spacing(1),
     }
   }));
 
@@ -81,12 +86,13 @@ const TopAppBar = () => {
           <Tab title="When and Where" icon={<HomeIcon />} aria-label="When &amp; Where" {...a11yProps(0)} />
           <Tab title="Who and What" icon={<HeartIcon />} aria-label="Who &amp; What" {...a11yProps(1)} />
           <Tab title="Repondre Sil Vous Plait" icon={<RSVPIcon />} aria-label="R.S.V.P." {...a11yProps(2)} />
+          <Tab title="Confirmed Guests and Table Arrangements" icon={<HowToRegTwoTone />} aria-label="Guest List" {...a11yProps(3)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
         <Timer eventDate={new Date('January 12, 2020 11:30:00')}/>
         <Paper>
-          <Box p={1} mt={3}>
+          <Box p={2} mt={3}>
             <Typography
               component="p"
               className={classes.headerText}
@@ -100,7 +106,14 @@ const TopAppBar = () => {
               component="p"
               className={classes.headerText}
             >
-              You can also read about our love story and if are so inclined, email &#8226;Luigi&#8226; about our Honeymoon Fund deposit box.
+              You can also read about our love story and if are so inclined, email &#8226;Luigi&#8226; about our Honeymoon Fund deposit box or visit our 
+              <Link 
+                target="_blank" 
+                rel="noopener" 
+                href="https://www.amazon.com/wedding/registry/1TZ0LRV138MZM" 
+                color="secondary" 
+                className={classes.link}
+              >Amazon Registry</Link>.
               So have fun, take a look around and don’t forget to RSVP!
               Finally, thank you for your ongoing love and support. We are excited to share this day with you and look forward to eating some good food with all our favorite people!
             </Typography>
@@ -127,7 +140,7 @@ const TopAppBar = () => {
           ariaLabel="reception location"
           title="&#8226; Reception Location &#8226;"
           locationType="RESTAURANT"
-          subheader="Guests are welcome to arrive at 1:30 pm &#8226; 189 The Grove Dr Suite Z80, Los Angeles, CA 90036"
+          subheader="Guests are welcome to arrive at 1:00 pm &#8226; Maggiano's Little Italy, 189 The Grove Dr Suite Z80, Los Angeles, CA 90036"
           footer="**PARKING IS FREE FOR 2 HOURS AT THE GROVE WITH VALIDATION FROM MAGGIANO'S (FRONT DESK). VALET IS LIKE $12, WE RECOMMEND PARKING AT THE GROVE."
         />
       </TabPanel>
@@ -208,6 +221,9 @@ const TopAppBar = () => {
       </TabPanel>
       <TabPanel value={value} index={2}>
         <RSVP />
+      </TabPanel>
+      <TabPanel value={value} index={3}>
+        <Confirmed />
       </TabPanel>
     </React.Fragment>
   );

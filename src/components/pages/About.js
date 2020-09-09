@@ -31,9 +31,9 @@ const useStyles = makeStyles(theme => ({
   },
   aboutText: {
     fontFamily: 'Cookie',
-    fontSize: '1.2rem',
+    fontSize: '1.5rem',
     [theme.breakpoints.up('sm')]: {
-      fontSize: '2rem'
+      fontSize: '1.5rem'
     },
   }
 }));
