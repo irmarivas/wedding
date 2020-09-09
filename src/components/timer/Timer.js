@@ -84,11 +84,12 @@ const Timer = ({ eventDate }) => {
   };
 
   const addLeadingZeros = value => {
-		value = String(value);
-		while (value.length < 2) {
-			value = `0${value}`;
+		const numericalValue = value || 0;
+    let result = String(numericalValue);
+		while (result.length < 2) {
+			result = `0${result}`;
 		}
-		return value;
+		return result;
 	};
 
    React.useEffect(() => {
