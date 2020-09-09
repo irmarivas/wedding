@@ -12,13 +12,13 @@
 - [firestore](https://firebase.google.com/)
 
 - [x] TODO: Create maps for ceremony
-- [ ] TODO: Create maps for reception
+- [x] TODO: Create maps for reception
 - [x] TODO: Create rsvp component
 - [x] TODO: Type about us section 
 - [x] TODO: Type a welcome message
 - [x] TODO: Hook up the DB
-- [ ] TODO: Optimize DB query??
-- [ ] TODO: GuestList Component detailing tables and confirmed data etc.
-- [ ] TODO: Send Out Invites with corresponding UUIDs after list is finalized 
+- [x] TODO: Optimize DB query??
+- [x] TODO: GuestList Component detailing tables and confirmed data etc.
+- [x] TODO: Send Out Invites with corresponding UUIDs after list is finalized 
 
 to run: `npm i` set up config for a DB, set up `assets dir` followed by `npm start`
